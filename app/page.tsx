@@ -37,8 +37,8 @@ export default function Home() {
             {/* <UrlLink url={'#researches'} native={true} underline={false} fontSize={'text-sm'}>Researches</UrlLink>
                 <Separator /> */}
             <UrlLink url={'#work-experience'} native={true} underline={false} fontSize={'text-sm'}>Work Experience</UrlLink>
-            <Separator />
-            <UrlLink url={'#projects'} native={true} underline={false} fontSize={'text-sm'}>Projects</UrlLink>
+            {/* <Separator />
+            <UrlLink url={'#projects'} native={true} underline={false} fontSize={'text-sm'}>Projects</UrlLink> */}
             <Separator />
             <UrlLink url={'#blogs'} native={true} underline={false} fontSize={'text-sm'}>Blogs</UrlLink>
 
@@ -55,7 +55,7 @@ export default function Home() {
             at <UrlLink
               url={"https://sw.scu.edu.cn/"}>CSE</UrlLink> of <UrlLink
                 url={"https://www.scu.edu.cn/index.htm"}>Sichuan University</UrlLink> for my B.S.
-            I&apos;m interested in <Bold>Software Development</Bold> and enjoying coding via Python / TypeScript / Java.</Paragraph>
+            I&apos;m interested in <Bold>Software Development</Bold> and enjoying coding via C++ / Python / Java.</Paragraph>
 
           <br />
 
@@ -66,7 +66,7 @@ export default function Home() {
           <div className={'h-3'}></div>
 
           <Paragraph>
-            <UrlLink url={'https://github.com/zhangbihan999'} bold={false}>
+            <UrlLink url={'https://github.com/ShoulderZ9'} bold={false}>
               <InlineIcon src={"/icon/github.svg"} text={"GitHub"} />
             </UrlLink>
             &nbsp;&nbsp;
@@ -124,13 +124,13 @@ export default function Home() {
                     <UrlLink url={'https://merlintang.github.io/'} bold={false}>Prof.Mingjie Tang</UrlLink>,&nbsp;Chengdu (China)
                   </div>
                   <br />
-                  2023.11 ~ 2024.12
+                  2023.08 ~ 2024.12
                 </div>
               } />
           </Table>
         </div>
 
-        <div className={'h-14'}></div>
+        {/* <div className={'h-14'}></div>
 
         <div id='projects'>
           <div className={'text-2xl'}>Projects </div>
@@ -151,7 +151,7 @@ export default function Home() {
                 </div>
               }/>
           </List>
-        </div>
+        </div> */}
 
         <div className={'h-14'}></div>
 
