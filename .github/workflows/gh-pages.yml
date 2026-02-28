@@ -11,27 +11,35 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    # 增加 cancel-in-progress: true，如果有新任务，自动取消旧任务，避免卡死
+    # 增加并发控制，防止多次 push 导致的任务堆积
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
       cancel-in-progress: true
       
     steps:
-      - uses: actions/checkout@v4  # 升级到 v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Setup Node
-        uses: actions/setup-node@v4 # 升级到 v4
+        uses: actions/setup-node@v4
         with:
           node-version: '20.11'
-          cache: 'yarn' # setup-node 内置了缓存功能，比 actions/cache 更简单稳定
+          # 开启 npm 缓存，这会自动寻找 package-lock.json
+          cache: 'npm'
 
-      - run: yarn install --frozen-lockfile
-      - run: yarn build
-      - run: yarn export
+      - name: Install Dependencies
+        # 使用 npm ci 代替 npm install，在 CI 环境下更快速且稳定
+        run: npm ci
+
+      - name: Build and Export
+        # 假设你的 package.json 中定义了 build 和 export 脚本
+        run: |
+          npm run build
+          npm run export
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
-        # 只有在 main 分支 push 时才执行部署
+        # 只有在 main 分支 push 时才触发部署
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
