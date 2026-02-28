@@ -11,27 +11,19 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    # 增加 cancel-in-progress: true，如果有新任务，自动取消旧任务，避免卡死
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+      
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4  # 升级到 v4
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4 # 升级到 v4
         with:
           node-version: '20.11'
-
-      - name: Get yarn cache
-        id: yarn-cache
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.yarn-cache.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          cache: 'yarn' # setup-node 内置了缓存功能，比 actions/cache 更简单稳定
 
       - run: yarn install --frozen-lockfile
       - run: yarn build
@@ -39,7 +31,8 @@ jobs:
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
-        if: ${{ github.ref == 'refs/heads/main' }}
+        # 只有在 main 分支 push 时才执行部署
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./out
